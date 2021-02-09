@@ -1,0 +1,33 @@
+package com.udemy.cookbook.models;
+
+import javax.persistence.*;
+
+
+@Entity
+@Table
+public class Recipe {
+    @Id
+    @GeneratedValue
+    private Integer id;
+    private String name, description, imagePath;
+
+    @ManyToOne
+    @JoinColumn(name = "food_category_id")
+    private FoodCategory foodCategory;
+
+    public Recipe() { }
+
+    public Recipe(String name, String description, String imagePath) {
+        super();
+        this.name = name;
+        this.description = description;
+        this.imagePath = imagePath;
+    }
+
+    public Recipe(String name, String description, String imagePath, FoodCategory foodCategory) {
+        this.name = name;
+        this.description = description;
+        this.imagePath = imagePath;
+        this.foodCategory = foodCategory;
+    }
+}
