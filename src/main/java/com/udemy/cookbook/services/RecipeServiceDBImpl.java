@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
+@Component("RecipeServiceDBImpl")
 public class RecipeServiceDBImpl implements IRecipeService {
     @Autowired
     private RecipeRepository recipeRepository;

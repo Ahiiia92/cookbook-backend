@@ -1,9 +1,7 @@
 package com.udemy.cookbook.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table
@@ -13,6 +11,9 @@ public class Ingredient {
     private Integer id;
     private String name;
     private Float amount;
+
+    @OneToMany(mappedBy = "ingredient", cascade = CascadeType.ALL)
+    private Set<Recipe> recipes;
 
     public Ingredient() { }
 
