@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController
 @CrossOrigin
+@RestController
 public class CategoryController {
     // @Autowired ==> Not required anymore due to the constructor injection.
     // final = constant???
