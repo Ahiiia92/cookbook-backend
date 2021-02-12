@@ -1,0 +1,54 @@
+
+entity Recipe {
+	name String,
+    description String,
+    imagePath String,
+    difficulty Difficulty,
+    prepTime Integer,
+}
+
+entity Category {
+	foodCategory String
+}
+
+entity Ingredient {
+	name String,
+	amount Float
+}
+
+entity UnitOfMeasure {
+	uom String
+}
+
+entity Comment {
+	commentContent String
+}
+
+/**
+ * The Difficulty level.
+ */
+enum Difficulty {
+	EASY, MODERATE, HARD
+}
+
+relationship OneToOne {
+	Ingredient{UnitOfMeasure} to UnitOfMeasure
+}
+
+relationship ManyToMany {
+	Recipe{Category} to Category{Recipe},
+    Recipe{Ingredient} to Ingredient{Recipe}
+}
+
+// bidirectional OneToMany relationships
+relationship OneToMany {
+	Recipe to Comment{Recipe},
+	Comment to Recipe{Comment}
+}
+
+
+// Set service options to all except few
+service all with serviceImpl
+
+// Set an angular suffix
+// angularSuffix * with mySuffix
