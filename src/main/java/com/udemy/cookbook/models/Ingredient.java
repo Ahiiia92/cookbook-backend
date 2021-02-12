@@ -12,7 +12,7 @@ public class Ingredient {
     private String name;
     private Float amount;
 
-    @OneToMany(mappedBy = "ingredient", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "ingredients")
     private Set<Recipe> recipes;
 
     public Ingredient() { }

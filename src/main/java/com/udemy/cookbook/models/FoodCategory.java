@@ -14,7 +14,7 @@ public class FoodCategory {
     private Integer id;
     private String name;
 
-    @OneToMany(mappedBy = "foodCategory", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "foodCategories")
     private Set<Recipe> recipes;
 
     public FoodCategory() {}
