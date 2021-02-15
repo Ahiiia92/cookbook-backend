@@ -8,4 +8,10 @@ import java.util.List;
 @Service("RecipeService")
 public interface IRecipeService {
     List<Recipe> findAll();
+
+    Recipe findById(Integer id);
+
+    Recipe save(Recipe recipe);
+
+    void delete(Integer id);
 }

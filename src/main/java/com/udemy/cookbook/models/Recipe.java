@@ -19,7 +19,7 @@ public class Recipe {
     private Set<Comment> comments;
 
     // A Recipe has many ingredients but ingredient also has many recipes
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "recipe_ingredient",
         joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
