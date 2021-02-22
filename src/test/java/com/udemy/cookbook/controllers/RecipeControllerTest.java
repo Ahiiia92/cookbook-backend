@@ -92,15 +92,16 @@ public class RecipeControllerTest {
         // What should theoretically happen:
         when(recipeController.createRecipe(r1)).thenReturn(r1);
 
-        verify(recipeController, times(1)).createRecipe(r1);
-
         // What's actually happened:
         mockMvc.perform(post("/")
-                .contentType(MediaType.APPLICATION_JSON).characterEncoding("utf-8")
-                .accept(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isCreated())
+                    .contentType(MediaType.APPLICATION_JSON).characterEncoding("utf-8")
+                    .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", Matchers.equalTo(1)))
                 .andExpect(jsonPath("$.name", Matchers.equalTo("cake")));
+
+        // verify that the mock
+        verify(recipeService, times(1)).save(r1);
     }
 
     @Test
