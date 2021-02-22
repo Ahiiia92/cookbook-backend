@@ -85,11 +85,14 @@ public class RecipeControllerTest {
     public void createRecipe() throws Exception {
         List<Recipe> expectRecipes = new ArrayList<>();
         Recipe r1 = new Recipe();
+        r1.setId(1);
         r1.setName("cake");
         expectRecipes.add(r1);
 
         // What should theoretically happen:
-        when(recipeService.save(r1)).thenReturn(r1);
+        when(recipeController.createRecipe(r1)).thenReturn(r1);
+
+        verify(recipeController, times(1)).createRecipe(r1);
 
         // What's actually happened:
         mockMvc.perform(post("/")
@@ -98,8 +101,6 @@ public class RecipeControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id", Matchers.equalTo(1)))
                 .andExpect(jsonPath("$.name", Matchers.equalTo("cake")));
-
-        verify(recipeService, times(1)).save(r1);
     }
 
     @Test

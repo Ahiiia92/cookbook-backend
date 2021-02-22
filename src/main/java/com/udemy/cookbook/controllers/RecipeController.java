@@ -37,7 +37,6 @@ public class RecipeController {
         return recipeService.findById(id);
     }
 
-    // TODO: Need to pass the test
     @DeleteMapping("/recipes/{id}")
     public void deleteRecipe(@RequestParam("recipe_id") Integer id) {
         recipeService.delete(id);
