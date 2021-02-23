@@ -47,4 +47,22 @@ public class RecipeServiceDBImpl implements IRecipeService {
         }
     }
 
+    @Override
+    public Recipe updateRecipe(Integer id, Recipe recipeDetails) {
+        Optional<Recipe> optionalRecipe = recipeRepository.findById(id);
+        if(optionalRecipe.isPresent()) {
+            optionalRecipe.get().setName(recipeDetails.getName());
+            optionalRecipe.get().setFoodCategories(recipeDetails.getFoodCategories());
+            optionalRecipe.get().setDifficulty(recipeDetails.getDifficulty());
+            optionalRecipe.get().setComments(recipeDetails.getComments());
+            optionalRecipe.get().setDescription(recipeDetails.getDescription());
+            optionalRecipe.get().setImagePath(recipeDetails.getImagePath());
+            optionalRecipe.get().setIngredients(recipeDetails.getIngredients());
+            recipeRepository.save(optionalRecipe.get());
+            return optionalRecipe.get();
+        } else {
+            throw new RecipeNotFoundException(id);
+        }
+    }
+
 }

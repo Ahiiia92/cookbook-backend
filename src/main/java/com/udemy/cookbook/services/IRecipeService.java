@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service("RecipeService")
+@Service
 public interface IRecipeService {
     List<Recipe> findAll();
 
@@ -14,4 +14,6 @@ public interface IRecipeService {
     Recipe save(Recipe recipe);
 
     void delete(Integer id);
+
+    Recipe updateRecipe(Integer id, Recipe recipeDetails);
 }

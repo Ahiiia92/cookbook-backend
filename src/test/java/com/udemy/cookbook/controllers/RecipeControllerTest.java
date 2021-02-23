@@ -93,9 +93,7 @@ public class RecipeControllerTest {
         when(recipeController.createRecipe(r1)).thenReturn(r1);
 
         // What's actually happened:
-        mockMvc.perform(post("/")
-                    .contentType(MediaType.APPLICATION_JSON).characterEncoding("utf-8")
-                    .accept(MediaType.APPLICATION_JSON_VALUE))
+        mockMvc.perform(post("/").contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", Matchers.equalTo(1)))
                 .andExpect(jsonPath("$.name", Matchers.equalTo("cake")));
@@ -122,7 +120,7 @@ public class RecipeControllerTest {
     }
 
     @Test
-    public void deleteRecipt() throws Exception {
+    public void deleteRecipe() throws Exception {
         List<Recipe> expectRecipes = new ArrayList<>();
         Recipe r1 = new Recipe();
         r1.setName("cake");
