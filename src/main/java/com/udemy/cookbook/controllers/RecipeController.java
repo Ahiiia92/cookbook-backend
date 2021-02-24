@@ -1,5 +1,6 @@
 package com.udemy.cookbook.controllers;
 
+import com.udemy.cookbook.exceptions.RecipeNotFoundException;
 import com.udemy.cookbook.models.Recipe;
 import com.udemy.cookbook.services.IRecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class RecipeController {
     @PutMapping("/recipes/{id}")
     public ResponseEntity<Recipe> editRecipe(@PathVariable Integer id, @RequestBody Recipe recipeDetails) {
         Recipe updatedRecipe = recipeService.updateRecipe(id, recipeDetails);
-        return ResponseEntity.ok().body(updatedRecipe);
+        return ResponseEntity.ok(updatedRecipe);
     }
 
     @DeleteMapping("/recipes/{id}")

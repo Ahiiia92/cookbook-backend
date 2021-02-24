@@ -94,7 +94,7 @@ public class RecipeControllerTest {
 
         // What's actually happened:
         mockMvc.perform(post("/").contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id", Matchers.equalTo(1)))
                 .andExpect(jsonPath("$.name", Matchers.equalTo("cake")));
 
