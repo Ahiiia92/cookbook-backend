@@ -2,9 +2,7 @@ package com.udemy.cookbook.controllers;
 
 import com.udemy.cookbook.models.FoodCategory;
 import com.udemy.cookbook.services.IFoodCategoryService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,4 +20,10 @@ public class CategoryController {
 
     @GetMapping("/categories")
     public List<FoodCategory> getFoodCategories() { return foodService.findAll(); }
+
+    @PostMapping("/categories")
+    public FoodCategory addCategories(@RequestBody FoodCategory category) {
+        foodService.save(category);
+        return foodService.findById(category.getId());
+    }
 }

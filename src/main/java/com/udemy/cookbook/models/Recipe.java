@@ -9,7 +9,7 @@ import java.util.Set;
 public class Recipe {
     @Id
     @GeneratedValue
-    private Integer id;
+    private Integer recipeId;
     private String name, description, imagePath;
 
     // From Recipe to Comments : Recipe have many comments while this comment will have just one Recipe
@@ -29,10 +29,11 @@ public class Recipe {
     @Enumerated(value = EnumType.STRING)
     private Difficulty difficulty;
 
-    // We wanna to call the join table to be called recipe_category
-    @ManyToMany
-    @JoinTable(name = "recipe_category",
-        joinColumns = @JoinColumn(name = "recipe_id"),
+    // We make the connextion with the join table called recipe_category
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "rec_cat",
+            joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<FoodCategory> foodCategories;
 
@@ -56,7 +57,7 @@ public class Recipe {
     }
 
     public Integer getId() {
-        return id;
+        return recipeId;
     }
 
     public String getName() {
@@ -75,8 +76,8 @@ public class Recipe {
         return comments;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setId(Integer recipeId) {
+        this.recipeId = recipeId;
     }
 
     public void setName(String name) {

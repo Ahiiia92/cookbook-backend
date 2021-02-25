@@ -1,7 +1,9 @@
 package com.udemy.cookbook.controllers;
 
 import com.udemy.cookbook.exceptions.RecipeNotFoundException;
+import com.udemy.cookbook.models.FoodCategory;
 import com.udemy.cookbook.models.Recipe;
+import com.udemy.cookbook.services.IFoodCategoryService;
 import com.udemy.cookbook.services.IRecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @CrossOrigin
 @RestController

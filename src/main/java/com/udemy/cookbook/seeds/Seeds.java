@@ -4,6 +4,7 @@ import com.github.javafaker.Faker;
 import com.udemy.cookbook.models.Difficulty;
 import com.udemy.cookbook.models.FoodCategory;
 import com.udemy.cookbook.models.Recipe;
+import com.udemy.cookbook.repositories.FoodCategoryRepository;
 import com.udemy.cookbook.repositories.RecipeRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.CommandLineRunner;
@@ -15,11 +16,13 @@ import java.util.Set;
 @Component
 public class Seeds implements CommandLineRunner {
     private RecipeRepository recipeRepository;
+    private FoodCategoryRepository categoryRepository;
 
     Faker faker = new Faker();
 
-    public Seeds(RecipeRepository recipeRepository) {
+    public Seeds(RecipeRepository recipeRepository, FoodCategoryRepository categoryRepository) {
         this.recipeRepository = recipeRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
@@ -29,15 +32,27 @@ public class Seeds implements CommandLineRunner {
         Set<FoodCategory> catDessert = new HashSet<>();
         Set<FoodCategory> catExotic = new HashSet<>();
         FoodCategory d = new FoodCategory();
-        d.setName("Dessert");
+        d.setName("Sweet");
+        categoryRepository.save(d);
+        System.out.println("Category " + d.getName() + " created");
         FoodCategory e = new FoodCategory();
-        e.setName("Exotic");
+        e.setName("Fruity");
+        categoryRepository.save(e);
+        System.out.println("Category " + e.getName() + " created");
         FoodCategory f = new FoodCategory();
         f.setName("Fresh");
+        categoryRepository.save(f);
+        System.out.println("Category " + f.getName() + " created");
+
+        // Set of Dessert categories:
         catDessert.add(d);
-        catExotic.add(e);
         catDessert.add(f);
-        // Add: Save to FoodCategory Repository
+        System.out.println("Dessert Category is composed of:" + catDessert);
+        // Set of Exotic categories:
+        catExotic.add(e);
+//        catExotic.add(d);
+        System.out.println("Dessert Exotic is composed of:" + catExotic);
+
         System.out.println("Food categories: done");
 
         // Ingredients
@@ -51,7 +66,7 @@ public class Seeds implements CommandLineRunner {
                 "https://images.unsplash.com/photo-1542124948-dc391252a940?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=668&q=80"
         );
         tiramisu.setDifficulty(Difficulty.MODERATE);
-//        tiramisu.setFoodCategories(catDessert);
+        tiramisu.setFoodCategories(catDessert);
         recipeRepository.save(tiramisu);
 
         Recipe bowl = new Recipe(
@@ -60,7 +75,7 @@ public class Seeds implements CommandLineRunner {
                 "https://images.unsplash.com/photo-1511378156040-1259b5bcd0fb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=627&q=80"
         );
         bowl.setDifficulty(Difficulty.EASY);
-//        bowl.setFoodCategories(catExotic);
+        bowl.setFoodCategories(catExotic);
         recipeRepository.save(bowl);
 
         Recipe brownie = new Recipe(

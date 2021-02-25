@@ -11,17 +11,16 @@ import java.util.Set;
 public class FoodCategory {
     @Id
     @GeneratedValue
-    private Integer id;
+    private Integer categoryId;
     private String name;
 
-    @ManyToMany(mappedBy = "foodCategories", cascade = CascadeType.MERGE)
-    private Set<Recipe> recipes;
+//    @ManyToMany(mappedBy = "foodCategories", cascade = CascadeType.MERGE)
+//    private Set<Recipe> recipes;
 
     public FoodCategory() {}
 
-    public FoodCategory(String name, Set<Recipe> recipes) {
+    public FoodCategory(String name) {
         this.name = name;
-        this.recipes = recipes;
     }
 
     public String getName() {
@@ -32,11 +31,15 @@ public class FoodCategory {
         this.name = name;
     }
 
-    public Set<Recipe> getRecipes() {
-        return recipes;
-    }
+//    public Set<Recipe> getRecipes() {
+//        return recipes;
+//    }
+//
+//    public void setRecipes(Set<Recipe> recipes) {
+//        this.recipes = recipes;
+//    }
 
-    public void setRecipes(Set<Recipe> recipes) {
-        this.recipes = recipes;
+    public Integer getId() {
+        return categoryId;
     }
 }
