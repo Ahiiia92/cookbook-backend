@@ -25,7 +25,7 @@ public class RecipeController {
         return recipeService.findById(id);
     }
 
-    // TODO: Need to pass the test
+    // TODO: Need to pass the test: "Required Request body is missing" BUT pass with postman
     // Add a Recipe
     @PostMapping("/")
     public Recipe createRecipe(@RequestBody Recipe recipe) {
@@ -33,7 +33,7 @@ public class RecipeController {
         return recipeService.findById(recipe.getId());
     }
 
-    // TODO: Need to pass the test
+    // TODO: Need to pass the test: "Required Request body is missing" BUT pass with postman
     // Edit a Recipe
     @PutMapping("/recipes/{id}")
     public ResponseEntity<Recipe> editRecipe(@PathVariable Integer id, @RequestBody Recipe recipeDetails) {
