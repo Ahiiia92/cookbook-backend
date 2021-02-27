@@ -1,10 +1,8 @@
 package com.udemy.cookbook.seeds;
 
 import com.github.javafaker.Faker;
-import com.udemy.cookbook.models.Difficulty;
-import com.udemy.cookbook.models.FoodCategory;
-import com.udemy.cookbook.models.Ingredient;
-import com.udemy.cookbook.models.Recipe;
+import com.udemy.cookbook.models.*;
+import com.udemy.cookbook.repositories.CommentRepository;
 import com.udemy.cookbook.repositories.FoodCategoryRepository;
 import com.udemy.cookbook.repositories.IngredientRepository;
 import com.udemy.cookbook.repositories.RecipeRepository;
@@ -19,20 +17,25 @@ public class Seeds implements CommandLineRunner {
     private RecipeRepository recipeRepository;
     private FoodCategoryRepository categoryRepository;
     private IngredientRepository ingredientRepository;
+    private CommentRepository commentRepository;
 
     Faker faker = new Faker();
 
     public Seeds(RecipeRepository recipeRepository,
                  FoodCategoryRepository categoryRepository,
-                 IngredientRepository ingredientRepository) {
+                 IngredientRepository ingredientRepository,
+                 CommentRepository commentRepository) {
         this.recipeRepository = recipeRepository;
         this.categoryRepository = categoryRepository;
         this.ingredientRepository = ingredientRepository;
+        this.commentRepository = commentRepository;
     }
 
     @Override
     public void run(String... args) throws Exception {
-        // Fodd categories:
+        // ============================
+        //       FOOD CATEGORIES
+        // ============================
         System.out.println("Creating some categories");
         Set<FoodCategory> catDessert = new HashSet<>();
         Set<FoodCategory> catExotic = new HashSet<>();
@@ -60,7 +63,9 @@ public class Seeds implements CommandLineRunner {
 
         System.out.println("Food categories: done");
 
-        // Ingredients
+        // =====================
+        //       INGREDIENTS
+        // =====================
         System.out.println("Creating ingredients...");
         Ingredient i1 = new Ingredient("Mascarpone", (float) 1.5);
         Ingredient i2 = new Ingredient("Chocolate", (float) 2);
@@ -71,16 +76,46 @@ public class Seeds implements CommandLineRunner {
         ingredientRepository.saveAll(Arrays.asList(i1, i2, i3, i4, i5, i6));
         System.out.println("Ingredients: done");
 
-        // Recipes
+        // =====================
+        //       COMMENTS
+        // =====================
+        System.out.println("Creating comments:");
+        Comment c1 = new Comment();
+        c1.setContent(StringUtils.abbreviate(faker.backToTheFuture().quote().trim(), 250));
+        System.out.println("1st Comment: " + c1.getContent());
+
+        Comment c2 = new Comment();
+        c2.setContent(StringUtils.abbreviate(faker.backToTheFuture().quote().trim(), 250));
+        System.out.println("2nd Comment: " + c2.getContent());
+
+        Comment c3 = new Comment();
+        c3.setContent(StringUtils.abbreviate(faker.backToTheFuture().quote().trim(), 250));
+        System.out.println("3rd Comment: " + c3.getContent());
+
+        Comment c4 = new Comment();
+        c4.setContent(StringUtils.abbreviate(faker.backToTheFuture().quote().trim(), 250));
+        System.out.println("4th Comment: " + c4.getContent());
+
+        commentRepository.saveAll(Arrays.asList(c1, c2, c3, c4));
+
+        // =====================
+        //       RECIPES
+        // =====================
+        // FIRST RECIPE:
+        // Initialization
         System.out.println("Creating recipes:");
         Recipe tiramisu = new Recipe(
                 "Tiramisù",
                 StringUtils.abbreviate(faker.lorem().paragraph(), 250),
                 "https://images.unsplash.com/photo-1542124948-dc391252a940?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=668&q=80"
         );
+
+        // Set Difficulty
         tiramisu.setDifficulty(Difficulty.MODERATE);
+        // Set Category
         tiramisu.setFoodCategories(catDessert);
         recipeRepository.save(tiramisu);
+        // Set Ingredients
         System.out.println("Allocating Ingredients to " + tiramisu.getName());
         // Add ingredients to the Hashset using add method
         tiramisu.getIngredients().addAll(Arrays.asList(i1, i2));
@@ -88,18 +123,31 @@ public class Seeds implements CommandLineRunner {
         i2.getRecipes().add(tiramisu);
         // Add ingredients through setters
         //  tiramisu.setIngredients(new HashSet<>(Arrays.asList(i1, i2)));
+        // Set Comments:
+//        tiramisu.setComments(new HashSet<>(Arrays.asList(c1, c2)));
+        tiramisu.getComments().addAll(Arrays.asList(c1, c2));
+        c1.setRecipe(tiramisu);
+        c2.setRecipe(tiramisu);
+        commentRepository.saveAll(Arrays.asList(c1, c2));
         recipeRepository.save(tiramisu);
         ingredientRepository.saveAll(Arrays.asList(i1, i2));
         //   ingredientRepository.saveAll(Arrays.asList(i1, i2));
-        System.out.println("ingredients added to " + tiramisu.getName() + ": " + tiramisu.getIngredients() + ", and i1.getRecipes(): " + i1.getRecipes());
+        System.out.println("Ingredient added to " + tiramisu.getName() + ": " + tiramisu.getIngredients() + ", and i1.getRecipes(): " + i1.getRecipes());
+        System.out.println("It's comments: " + tiramisu.getComments());
 
+
+        // SECOND RECIPE:
+        // Initialization
         Recipe bowl = new Recipe(
                 "Bowl gourmand quinoa, courge rôtie, grenade et morceaux de Fol Epi",
                 StringUtils.abbreviate(faker.lorem().paragraph(), 250),
                 "https://images.unsplash.com/photo-1511378156040-1259b5bcd0fb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=627&q=80"
         );
+        // Set Difficulty
         bowl.setDifficulty(Difficulty.EASY);
+        // Set Category
         bowl.setFoodCategories(catExotic);
+        // Set Ingredients
         System.out.println("Allocating Ingredients to " + bowl.getName());
         // Add ingredients through setters
 //        bowl.setIngredients(new HashSet<>(Arrays.asList(i3, i4)));
@@ -107,16 +155,26 @@ public class Seeds implements CommandLineRunner {
         bowl.getIngredients().addAll(Arrays.asList(i3, i4));
         i4.getRecipes().add(bowl);
         i3.getRecipes().add(bowl);
+        // Set Comments:
+        System.out.println("Allocating Comments to " + bowl.getName());
+        bowl.getComments().addAll(Arrays.asList(c3, c4));
+        c3.setRecipe(bowl);
+        c4.setRecipe(bowl);
+        commentRepository.saveAll(Arrays.asList(c3, c4));
         recipeRepository.save(bowl);
         ingredientRepository.saveAll(Arrays.asList(i3, i4));
         System.out.println("ingredients added to " + bowl.getName() + ": " + bowl.getIngredients());
 
+        // THIRD RECIPE:
+        // Initialization
         Recipe brownie = new Recipe(
                 "Chocolate Brownie",
                 StringUtils.abbreviate(faker.lorem().paragraph(), 250),
                 "https://images.unsplash.com/photo-1590841609987-4ac211afdde1?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80"
         );
+        // Set Difficulty
         brownie.setDifficulty(Difficulty.EASY);
+        // Set Category
         //  brownie.setFoodCategories(catDessert);
         System.out.println("Allocating Ingredients to " + brownie.getName());
         // Add ingredients through setters

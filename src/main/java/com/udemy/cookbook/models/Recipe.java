@@ -17,23 +17,21 @@ public class Recipe {
 
     // From Recipe to Comments : Recipe have many comments while this comment will have just one Recipe
     // Unique set of comments
-    // with mappedBy = a property in comment will be called recipe
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
-    private Set<Comment> comments;
+    @JsonManagedReference // to avoid a loop effect inside our object, we need to defined both references
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "recipe") // with mappedBy = a property in comment will be called recipe
+    private Set<Comment> comments = new HashSet<>();
 
     @JsonManagedReference // to avoid a loop effect inside our object, we need to defined both references
-    // A Recipe has many ingredients but ingredient also has many recipes
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE) // A Recipe has many ingredients but ingredient also has many recipes
     @JoinTable(name = "recipe_ingredient",
         joinColumns = @JoinColumn(name = "recipe_id", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "ingredient_id", nullable = false))
     private Set<Ingredient> ingredients = new HashSet<>();
 
-    // Enumtype.STRINg => So we can have additional level afterwards.
-    @Enumerated(value = EnumType.STRING)
+    @Enumerated(value = EnumType.STRING) // Enumtype.STRINg => So we can have additional level afterwards.
     private Difficulty difficulty;
 
-    // We make the connextion with the join table called recipe_category
+    // We make the connection with the join table called recipe_category
     @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "rec_cat",
