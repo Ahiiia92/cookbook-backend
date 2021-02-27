@@ -82,13 +82,16 @@ public class Seeds implements CommandLineRunner {
         tiramisu.setFoodCategories(catDessert);
         recipeRepository.save(tiramisu);
         System.out.println("Allocating Ingredients to " + tiramisu.getName());
+        // Add ingredients to the Hashset using add method
         tiramisu.getIngredients().addAll(Arrays.asList(i1, i2));
-        i6.getRecipes().add(tiramisu);
-//        tiramisu.setIngredients(new HashSet<>(Arrays.asList(i1, i2)));
+        i1.getRecipes().add(tiramisu);
+        i2.getRecipes().add(tiramisu);
+        // Add ingredients through setters
+        //  tiramisu.setIngredients(new HashSet<>(Arrays.asList(i1, i2)));
         recipeRepository.save(tiramisu);
-        ingredientRepository.save(i6);
-//        ingredientRepository.saveAll(Arrays.asList(i1, i2));
-        System.out.println("ingredients added to " + tiramisu.getName() + ": " + tiramisu.getIngredients() + ", and i1.getRecipes(): " + i6.getRecipes());
+        ingredientRepository.saveAll(Arrays.asList(i1, i2));
+        //   ingredientRepository.saveAll(Arrays.asList(i1, i2));
+        System.out.println("ingredients added to " + tiramisu.getName() + ": " + tiramisu.getIngredients() + ", and i1.getRecipes(): " + i1.getRecipes());
 
         Recipe bowl = new Recipe(
                 "Bowl gourmand quinoa, courge rôtie, grenade et morceaux de Fol Epi",
@@ -98,7 +101,9 @@ public class Seeds implements CommandLineRunner {
         bowl.setDifficulty(Difficulty.EASY);
         bowl.setFoodCategories(catExotic);
         System.out.println("Allocating Ingredients to " + bowl.getName());
+        // Add ingredients through setters
 //        bowl.setIngredients(new HashSet<>(Arrays.asList(i3, i4)));
+        // Add ingredients to the Hashset using add method
         bowl.getIngredients().addAll(Arrays.asList(i3, i4));
         i4.getRecipes().add(bowl);
         i3.getRecipes().add(bowl);
@@ -112,10 +117,11 @@ public class Seeds implements CommandLineRunner {
                 "https://images.unsplash.com/photo-1590841609987-4ac211afdde1?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80"
         );
         brownie.setDifficulty(Difficulty.EASY);
-//        brownie.setFoodCategories(catDessert);
+        //  brownie.setFoodCategories(catDessert);
         System.out.println("Allocating Ingredients to " + brownie.getName());
-//        brownie.getIngredients().add(i2);
-//        brownie.setIngredients(new HashSet<>(Collections.singletonList(i2)));
+        // Add ingredients through setters
+        //  brownie.setIngredients(new HashSet<>(Collections.singletonList(i2)));
+        // Add ingredients to the Hashset using add method
         brownie.getIngredients().add(i2);
         i2.getRecipes().add(brownie);
         recipeRepository.save(brownie);
