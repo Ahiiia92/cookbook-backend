@@ -1,6 +1,9 @@
 package com.udemy.cookbook.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -18,12 +21,13 @@ public class Recipe {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
     private Set<Comment> comments;
 
+    @JsonManagedReference // to avoid a loop effect inside our object, we need to defined both references
     // A Recipe has many ingredients but ingredient also has many recipes
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(name = "recipe_ingredient",
-        joinColumns = @JoinColumn(name = "recipe_id"),
-            inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
-    private Set<Ingredient> ingredients;
+        joinColumns = @JoinColumn(name = "recipe_id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "ingredient_id", nullable = false))
+    private Set<Ingredient> ingredients = new HashSet<>();
 
     // Enumtype.STRINg => So we can have additional level afterwards.
     @Enumerated(value = EnumType.STRING)

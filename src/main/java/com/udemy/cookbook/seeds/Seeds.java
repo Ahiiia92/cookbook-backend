@@ -3,26 +3,31 @@ package com.udemy.cookbook.seeds;
 import com.github.javafaker.Faker;
 import com.udemy.cookbook.models.Difficulty;
 import com.udemy.cookbook.models.FoodCategory;
+import com.udemy.cookbook.models.Ingredient;
 import com.udemy.cookbook.models.Recipe;
 import com.udemy.cookbook.repositories.FoodCategoryRepository;
+import com.udemy.cookbook.repositories.IngredientRepository;
 import com.udemy.cookbook.repositories.RecipeRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Component
 public class Seeds implements CommandLineRunner {
     private RecipeRepository recipeRepository;
     private FoodCategoryRepository categoryRepository;
+    private IngredientRepository ingredientRepository;
 
     Faker faker = new Faker();
 
-    public Seeds(RecipeRepository recipeRepository, FoodCategoryRepository categoryRepository) {
+    public Seeds(RecipeRepository recipeRepository,
+                 FoodCategoryRepository categoryRepository,
+                 IngredientRepository ingredientRepository) {
         this.recipeRepository = recipeRepository;
         this.categoryRepository = categoryRepository;
+        this.ingredientRepository = ingredientRepository;
     }
 
     @Override
@@ -56,7 +61,15 @@ public class Seeds implements CommandLineRunner {
         System.out.println("Food categories: done");
 
         // Ingredients
-        System.out.println("Creating ingredients:");
+        System.out.println("Creating ingredients...");
+        Ingredient i1 = new Ingredient("Mascarpone", (float) 1.5);
+        Ingredient i2 = new Ingredient("Chocolate", (float) 2);
+        Ingredient i3 = new Ingredient("Potatoes", (float) 5);
+        Ingredient i4 = new Ingredient("Tomatoes", (float) 2);
+        Ingredient i5 = new Ingredient("Eggs", (float) 4);
+        Ingredient i6 = new Ingredient("Nuts", (float) 3.5);
+        ingredientRepository.saveAll(Arrays.asList(i1, i2, i3, i4, i5, i6));
+        System.out.println("Ingredients: done");
 
         // Recipes
         System.out.println("Creating recipes:");
@@ -68,6 +81,14 @@ public class Seeds implements CommandLineRunner {
         tiramisu.setDifficulty(Difficulty.MODERATE);
         tiramisu.setFoodCategories(catDessert);
         recipeRepository.save(tiramisu);
+        System.out.println("Allocating Ingredients to " + tiramisu.getName());
+        tiramisu.getIngredients().addAll(Arrays.asList(i1, i2));
+        i6.getRecipes().add(tiramisu);
+//        tiramisu.setIngredients(new HashSet<>(Arrays.asList(i1, i2)));
+        recipeRepository.save(tiramisu);
+        ingredientRepository.save(i6);
+//        ingredientRepository.saveAll(Arrays.asList(i1, i2));
+        System.out.println("ingredients added to " + tiramisu.getName() + ": " + tiramisu.getIngredients() + ", and i1.getRecipes(): " + i6.getRecipes());
 
         Recipe bowl = new Recipe(
                 "Bowl gourmand quinoa, courge rôtie, grenade et morceaux de Fol Epi",
@@ -76,7 +97,14 @@ public class Seeds implements CommandLineRunner {
         );
         bowl.setDifficulty(Difficulty.EASY);
         bowl.setFoodCategories(catExotic);
+        System.out.println("Allocating Ingredients to " + bowl.getName());
+//        bowl.setIngredients(new HashSet<>(Arrays.asList(i3, i4)));
+        bowl.getIngredients().addAll(Arrays.asList(i3, i4));
+        i4.getRecipes().add(bowl);
+        i3.getRecipes().add(bowl);
         recipeRepository.save(bowl);
+        ingredientRepository.saveAll(Arrays.asList(i3, i4));
+        System.out.println("ingredients added to " + bowl.getName() + ": " + bowl.getIngredients());
 
         Recipe brownie = new Recipe(
                 "Chocolate Brownie",
@@ -85,6 +113,11 @@ public class Seeds implements CommandLineRunner {
         );
         brownie.setDifficulty(Difficulty.EASY);
 //        brownie.setFoodCategories(catDessert);
+        System.out.println("Allocating Ingredients to " + brownie.getName());
+//        brownie.getIngredients().add(i2);
+//        brownie.setIngredients(new HashSet<>(Collections.singletonList(i2)));
+        brownie.getIngredients().add(i2);
+        i2.getRecipes().add(brownie);
         recipeRepository.save(brownie);
 
         System.out.println("Recipes created...");

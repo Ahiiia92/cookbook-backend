@@ -5,20 +5,20 @@ Practice my backend knowledge with a concrete project.
 
 ## Stack
 ### Frontend:
+Frontend Repo: **angular-cookbook-udemy**, link [here](https://github.com/Ahiiia92/angular-cookbook-udemy).
 - Angular
-- sass
+- Sass
 
 ### Backend:
 - Java
 - Spring Boot
-- H2 Database
+- PostgresQL
 - Maven
 - JUnit 5
 
 ## Spring Boot Module
 - Web MVC
-- H2 Database
+- PostgresQL
 - JPA
 - Dev Tool
 
-Frontend Repo: **angular-cookbook-udemy**, link [here](https://github.com/Ahiiia92/angular-cookbook-udemy).
