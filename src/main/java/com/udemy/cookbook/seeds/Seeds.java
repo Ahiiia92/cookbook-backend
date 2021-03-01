@@ -125,6 +125,7 @@ public class Seeds implements CommandLineRunner {
         //  tiramisu.setIngredients(new HashSet<>(Arrays.asList(i1, i2)));
         // Set Comments:
 //        tiramisu.setComments(new HashSet<>(Arrays.asList(c1, c2)));
+        System.out.println("Allocating Comments to " + tiramisu.getName());
         tiramisu.getComments().addAll(Arrays.asList(c1, c2));
         c1.setRecipe(tiramisu);
         c2.setRecipe(tiramisu);
@@ -160,8 +161,8 @@ public class Seeds implements CommandLineRunner {
         bowl.getComments().addAll(Arrays.asList(c3, c4));
         c3.setRecipe(bowl);
         c4.setRecipe(bowl);
-        commentRepository.saveAll(Arrays.asList(c3, c4));
         recipeRepository.save(bowl);
+        commentRepository.saveAll(Arrays.asList(c3, c4));
         ingredientRepository.saveAll(Arrays.asList(i3, i4));
         System.out.println("ingredients added to " + bowl.getName() + ": " + bowl.getIngredients());
 
