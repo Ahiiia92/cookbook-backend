@@ -3,6 +3,7 @@ package com.udemy.cookbook.controllers;
 import com.udemy.cookbook.exceptions.RecipeNotFoundException;
 import com.udemy.cookbook.models.FoodCategory;
 import com.udemy.cookbook.models.Recipe;
+import com.udemy.cookbook.security.AuthenticationBean;
 import com.udemy.cookbook.services.IFoodCategoryService;
 import com.udemy.cookbook.services.IRecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
