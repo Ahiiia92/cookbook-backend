@@ -12,7 +12,7 @@ import java.util.Set;
 public class Recipe {
     @Id
     @GeneratedValue
-    private Integer recipeId;
+    private Integer id;
     private String name, description, imagePath;
 
     // From Recipe to Comments : Recipe have many comments while this comment will have just one Recipe
@@ -59,7 +59,7 @@ public class Recipe {
     }
 
     public Integer getId() {
-        return recipeId;
+        return id;
     }
 
     public String getName() {
@@ -78,8 +78,8 @@ public class Recipe {
         return comments;
     }
 
-    public void setId(Integer recipeId) {
-        this.recipeId = recipeId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public void setName(String name) {
