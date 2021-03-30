@@ -22,3 +22,7 @@ Frontend Repo: **angular-cookbook-udemy**, link [here](https://github.com/Ahiiia
 - JPA
 - Dev Tool
 
+## Live Version:
+- API: https://springcookbook21.herokuapp.com/
+- with Frontend: https://angular-cookbook-d5eda.web.app/
+
